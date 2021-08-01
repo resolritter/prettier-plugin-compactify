@@ -1,0 +1,45 @@
+{
+  "name": "@resolritter/prettier-plugin-compactify",
+  "version": "0.1.1",
+  "license": "Apache-2.0",
+  "main": "lib/src/index.js",
+  "files": [
+    "/lib"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "try": "prettier --config .prettierrc --plugin lib/src/index.js",
+    "prettier": "prettier src/**/*",
+    "eslint": "eslint --ext js,ts,tsx src",
+    "lint": "yarn lint:eslint && yarn lint:prettier",
+    "lint:eslint": "yarn eslint",
+    "lint:prettier": "yarn prettier --check",
+    "fix:eslint": "yarn eslint --fix",
+    "fix:prettier": "yarn prettier --write",
+    "fix": "yarn fix:eslint && yarn fix:prettier"
+  },
+  "dependencies": {
+    "@babel/core": "^7.14.8",
+    "@babel/generator": "^7.14.8",
+    "@babel/parser": "^7.14.8",
+    "@babel/traverse": "^7.14.8",
+    "lodash": "^4.17.21",
+    "prettier": "^2.3.2"
+  },
+  "devDependencies": {
+    "@types/babel__core": "^7.1.15",
+    "@types/lodash": "^4.14.171",
+    "@types/node": "^16.4.9",
+    "@types/prettier": "^2.3.2",
+    "@typescript-eslint/eslint-plugin": "^4.28.5",
+    "@typescript-eslint/parser": "^4.28.5",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "eslint-plugin-unused-imports": "^1.1.2",
+    "typescript": "^4.3.5"
+  }
+}
