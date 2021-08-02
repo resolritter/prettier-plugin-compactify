@@ -1,5 +1,7 @@
 # prettier-plugin-compactify
 
+Available on npm as `prettier-plugin-compactify`
+
 # Introduction
 
 This plugin collapses objects' formatting before passing the code to Prettier.
