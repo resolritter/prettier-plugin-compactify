@@ -6,6 +6,7 @@
   "files": [
     "/lib"
   ],
+  "private": false,
   "scripts": {
     "build": "tsc",
     "typecheck": "tsc --noEmit",
