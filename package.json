@@ -9,6 +9,7 @@
   "private": false,
   "scripts": {
     "build": "tsc",
+    "clean": "rm -r lib",
     "typecheck": "tsc --noEmit",
     "try": "prettier --config .prettierrc --plugin lib/src/index.js",
     "prettier": "prettier src/**/*",
@@ -19,7 +20,7 @@
     "fix:eslint": "yarn eslint --fix",
     "fix:prettier": "yarn prettier --write",
     "fix": "yarn fix:eslint && yarn fix:prettier",
-    "release": "rm *.tgz; yarn pack && yarn publish *.tgz"
+    "release": "rm *.tgz; yarn clean; yarn pack && yarn publish *.tgz"
   },
   "dependencies": {
     "@babel/core": "^7.14.8",
