@@ -7,14 +7,17 @@ import { parsers as flowParsers } from "prettier/parser-flow"
 import { parsers as typescriptParsers } from "prettier/parser-typescript"
 
 export const preprocess = function (code: string) {
-  const defaultConfig = {
+  const defaultParserOptions: ParserOptions = {
     sourceType: "module",
     plugins: ["typescript", "jsx"],
-  } as ParserOptions
-  const babelConfig = loadPartialConfig() as ParserOptions
-  const mergedOptions = merge(defaultConfig, babelConfig)
+  }
+  const babelConfigParserOptions = loadPartialConfig()
+  const mergedOptions = merge(
+    defaultParserOptions,
+    babelConfigParserOptions as ParserOptions,
+  )
 
-  type Position = [blockStart: number, propertyStart: number]
+  type Position = { openBrace: number; propertyStart: number }
   const positions: Position[] = []
 
   const ast = parse(code, mergedOptions)
@@ -36,7 +39,10 @@ export const preprocess = function (code: string) {
           ) {
             return
           }
-          positions.push([path.node.start, prop.start])
+          positions.push({
+            openBrace: path.node.start,
+            propertyStart: prop.start,
+          })
           break
         }
       }
@@ -46,39 +52,38 @@ export const preprocess = function (code: string) {
   let unshift = 0
   let pos: Position | undefined
   toNextPosition: while ((pos = positions.shift())) {
-    // put the cursor immediately after the opening brace
-    let cursor = pos[0] + 1 - unshift
+    // position the cursor immediately after the node's open brace
+    let cursor = pos.openBrace + 1 - unshift
 
     // figure out what follows the opening brace to decide if the node will be
     // collapsed
-    toNextCursor: while (code[cursor]) {
+    toNextChar: while (code[cursor]) {
       switch (code[cursor]) {
+        // whitespace is skipped
         case " ":
         case "\t":
         case "\r":
         case "\n": {
-          // skip whitespace
           break
         }
+        // if a comment follows the opening brace, then don't collapse
         case "/": {
-          // don't collapse this node if a comment follows the opening brace
           continue toNextPosition
         }
         default: {
-          // found something other than whitespace or a comment after the opening brace
-          break toNextCursor
+          break toNextChar
         }
       }
-      cursor += 1
+      cursor++
     }
 
-    // remove the whitespace following the opening brace
-    code = `${code.slice(0, pos[0] + 1 - unshift)}${code.slice(
-      pos[1] - unshift,
+    // remove whitespace following the opening brace
+    code = `${code.slice(0, pos.openBrace + 1 - unshift)}${code.slice(
+      pos.propertyStart - unshift,
     )}`
 
     // take into account what was removed for future positions
-    unshift += pos[1] - 1 - pos[0]
+    unshift += pos.propertyStart - 1 - pos.openBrace
   }
 
   return code
