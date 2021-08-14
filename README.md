@@ -26,7 +26,7 @@ const obj = { foo: "bar" }
 ```
 
 This plugin was created because Prettier keeps arbitrary newlines after a `{`
-even if they are not wanted. For more context see
+even if the user does not want them. For more context see
 [issue 10757](https://github.com/prettier/prettier/issues/10757).
 
 # Development
@@ -38,8 +38,9 @@ even if they are not wanted. For more context see
 
 Additionally:
 
-- `yarn fix` formats all files
-- `yarn lint` lints all files
+- `yarn fix` for formatting
+- `yarn lint` for linting
+
 # Release
 
 1. `yarn pack`
