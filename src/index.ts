@@ -1,10 +1,10 @@
 import { loadPartialConfig } from "@babel/core"
 import { parse, ParserOptions } from "@babel/parser"
 import traverse from "@babel/traverse"
-import { merge } from "lodash"
 import { parsers as babelParsers } from "prettier/parser-babel"
 import { parsers as flowParsers } from "prettier/parser-flow"
 import { parsers as typescriptParsers } from "prettier/parser-typescript"
+import merge from "lodash.merge"
 
 export const preprocess = function (code: string) {
   const defaultConfig = {
