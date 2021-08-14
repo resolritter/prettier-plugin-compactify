@@ -25,7 +25,9 @@ module.exports = {
     // prettier
     "prettier/prettier": "error",
     "no-extra-semi": "off",
-    "no-empty": "off", // related to the "unused-imports" plugin
+    "no-empty": "off",
+
+    // unused variables and imports
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": "off",
     "unused-imports/no-unused-imports-ts": "error",
@@ -38,7 +40,8 @@ module.exports = {
         argsIgnorePattern: "^_",
       },
     ],
-    // related to import sorting and ordering
+
+    // import sorting and ordering
     "sort-imports": "off",
     "import/order": "off",
     "no-multi-spaces": "error",
@@ -56,9 +59,12 @@ module.exports = {
     "import/first": "error",
     "import/newline-after-import": "error",
     "import/no-duplicates": ["error", { considerQueryString: true }],
-    "no-restricted-imports": ["error", { patterns: ["../*"] }], // typescript already enforces the following
+    "no-restricted-imports": ["error", { patterns: ["../*"] }],
+
+    // typescript already enforces the following
     "no-undef": "off",
-    // other
+
+    // misc
     "@typescript-eslint/strict-boolean-expressions": [
       "error",
       {
