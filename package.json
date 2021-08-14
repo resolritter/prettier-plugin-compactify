@@ -18,7 +18,8 @@
     "lint:prettier": "yarn prettier --check",
     "fix:eslint": "yarn eslint --fix",
     "fix:prettier": "yarn prettier --write",
-    "fix": "yarn fix:eslint && yarn fix:prettier"
+    "fix": "yarn fix:eslint && yarn fix:prettier",
+    "release": "rm *.tgz; yarn pack && yarn publish *.tgz"
   },
   "dependencies": {
     "@babel/core": "^7.14.8",

@@ -45,5 +45,4 @@ Additionally:
 
 # Release
 
-1. `yarn pack`
-2. `yarn publish *.tgz`
+`yarn release`
