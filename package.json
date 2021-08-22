@@ -4,7 +4,7 @@
   "license": "Apache-2.0",
   "main": "lib/src/index.js",
   "files": [
-    "/lib"
+    "/lib/src"
   ],
   "private": false,
   "scripts": {
@@ -20,7 +20,8 @@
     "fix:eslint": "yarn eslint --fix",
     "fix:prettier": "yarn prettier --write",
     "fix": "yarn fix:eslint && yarn fix:prettier",
-    "release": "rm *.tgz; yarn clean; yarn pack && yarn publish *.tgz"
+    "pre-release": "rm *.tgz; yarn clean; yarn build && yarn pack",
+    "release": "yarn pre-release && yarn publish *.tgz"
   },
   "dependencies": {
     "@babel/core": "^7.14.8",
