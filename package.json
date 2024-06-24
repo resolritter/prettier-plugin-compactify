@@ -6,6 +6,7 @@
   "files": [
     "/lib/src"
   ],
+  "keywords": ["collapse", "deterministic", "multiline", "multi-line", "single-line", "object"],
   "private": false,
   "scripts": {
     "build": "tsc",
