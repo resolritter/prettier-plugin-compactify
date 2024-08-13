@@ -9,7 +9,7 @@ export const preprocess = function (code: string) {
   type Position = { openBrace: number; propertyStart: number }
   const positions: Position[] = []
 
-  const ast = transformSync(code).ast;
+  const ast = transformSync(code, { ast: true }).ast;
   traverse(ast, {
     enter(path) {
       switch (path.node.type) {
