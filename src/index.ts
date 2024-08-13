@@ -3,13 +3,16 @@ import traverse from "@babel/traverse"
 import { parsers as babelParsers } from "prettier/parser-babel"
 import { parsers as flowParsers } from "prettier/parser-flow"
 import { parsers as typescriptParsers } from "prettier/parser-typescript"
+import { dirname } from 'path';
 
-export const preprocess = function (code: string) {
+export const preprocess = function (code: string, { filepath }) {
 
   type Position = { openBrace: number; propertyStart: number }
   const positions: Position[] = []
 
-  const ast = transformSync(code, { ast: true }).ast;
+  // Note that when running Prettier as a worker (in eslint-plugin-prettier),
+  // process.cwd() will only be set once which is bad for tests.
+  const ast = transformSync(code, { cwd: dirname(filepath), ast: true }).ast;
   traverse(ast, {
     enter(path) {
       switch (path.node.type) {
