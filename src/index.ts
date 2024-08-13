@@ -1,26 +1,15 @@
-import { loadPartialConfig } from "@babel/core"
-import { parse, ParserOptions } from "@babel/parser"
+import { transformSync } from "@babel/core"
 import traverse from "@babel/traverse"
-import merge from "lodash.merge"
 import { parsers as babelParsers } from "prettier/parser-babel"
 import { parsers as flowParsers } from "prettier/parser-flow"
 import { parsers as typescriptParsers } from "prettier/parser-typescript"
 
 export const preprocess = function (code: string) {
-  const defaultParserOptions: ParserOptions = {
-    sourceType: "module",
-    plugins: ["typescript", "jsx"],
-  }
-  const babelConfigParserOptions = loadPartialConfig()
-  const mergedOptions = merge(
-    defaultParserOptions,
-    babelConfigParserOptions as ParserOptions,
-  )
 
   type Position = { openBrace: number; propertyStart: number }
   const positions: Position[] = []
 
-  const ast = parse(code, mergedOptions)
+  const ast = transformSync(code).ast;
   traverse(ast, {
     enter(path) {
       switch (path.node.type) {
