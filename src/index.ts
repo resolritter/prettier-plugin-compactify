@@ -1,18 +1,15 @@
-import { transformSync } from "@babel/core"
 import traverse from "@babel/traverse"
-import { parsers as babelParsers } from "prettier/parser-babel"
-import { parsers as flowParsers } from "prettier/parser-flow"
-import { parsers as typescriptParsers } from "prettier/parser-typescript"
-import { dirname } from 'path';
+import { parsers as babelParsers } from "prettier/plugins/babel"
+import { parsers as flowParsers } from "prettier/plugins/flow"
+import { parsers as typescriptParsers } from "prettier/plugins/typescript"
+import { Parser, ParserOptions } from "prettier";
 
-export const preprocess = function (code: string, { filepath }) {
+export const createPreprocess = (parser: Parser) => (code: string, options: ParserOptions) => {
 
   type Position = { openBrace: number; propertyStart: number }
   const positions: Position[] = []
 
-  // Note that when running Prettier as a worker (in eslint-plugin-prettier),
-  // process.cwd() will only be set once which is bad for tests.
-  const ast = transformSync(code, { cwd: dirname(filepath), ast: true }).ast;
+  const ast = parser.parse(code, options);
   traverse(ast, {
     enter(path) {
       switch (path.node.type) {
@@ -83,9 +80,9 @@ export const preprocess = function (code: string, { filepath }) {
 
 module.exports = {
   parsers: {
-    babel: { ...babelParsers.babel, preprocess },
-    "babel-flow": { ...flowParsers.flow, preprocess },
-    typescript: { ...typescriptParsers.typescript, preprocess },
+    babel: { ...babelParsers.babel, preprocess: createPreprocess(babelParsers.babel) },
+    "babel-flow": { ...flowParsers.flow, preprocess: createPreprocess(flowParsers.flow) },
+    typescript: { ...typescriptParsers.typescript, preprocess: createPreprocess(typescriptParsers.typescript) },
   },
   options: {},
 }
