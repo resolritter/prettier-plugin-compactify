@@ -1,26 +1,15 @@
-import { loadPartialConfig } from "@babel/core"
-import { parse, ParserOptions } from "@babel/parser"
 import traverse from "@babel/traverse"
-import merge from "lodash.merge"
-import { parsers as babelParsers } from "prettier/parser-babel"
-import { parsers as flowParsers } from "prettier/parser-flow"
-import { parsers as typescriptParsers } from "prettier/parser-typescript"
+import { parsers as babelParsers } from "prettier/plugins/babel"
+import { parsers as flowParsers } from "prettier/plugins/flow"
+import { parsers as typescriptParsers } from "prettier/plugins/typescript"
+import { Parser, ParserOptions } from "prettier";
 
-export const preprocess = function (code: string) {
-  const defaultParserOptions: ParserOptions = {
-    sourceType: "module",
-    plugins: ["typescript", "jsx"],
-  }
-  const babelConfigParserOptions = loadPartialConfig()
-  const mergedOptions = merge(
-    defaultParserOptions,
-    babelConfigParserOptions as ParserOptions,
-  )
+export const createPreprocess = (parser: Parser) => (code: string, options: ParserOptions) => {
 
   type Position = { openBrace: number; propertyStart: number }
   const positions: Position[] = []
 
-  const ast = parse(code, mergedOptions)
+  const ast = parser.parse(code, options);
   traverse(ast, {
     enter(path) {
       switch (path.node.type) {
@@ -91,9 +80,9 @@ export const preprocess = function (code: string) {
 
 module.exports = {
   parsers: {
-    babel: { ...babelParsers.babel, preprocess },
-    "babel-flow": { ...flowParsers.flow, preprocess },
-    typescript: { ...typescriptParsers.typescript, preprocess },
+    babel: { ...babelParsers.babel, preprocess: createPreprocess(babelParsers.babel) },
+    "babel-flow": { ...flowParsers.flow, preprocess: createPreprocess(flowParsers.flow) },
+    typescript: { ...typescriptParsers.typescript, preprocess: createPreprocess(typescriptParsers.typescript) },
   },
   options: {},
 }

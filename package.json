@@ -26,16 +26,13 @@
   "dependencies": {
     "@babel/core": "^7.14.8",
     "@babel/generator": "^7.14.8",
-    "@babel/parser": "^7.14.8",
     "@babel/traverse": "^7.14.8",
-    "lodash.merge": "^4.6.2",
-    "prettier": "^2.3.2"
+    "prettier": "^3.3.3"
   },
   "devDependencies": {
     "@types/babel__core": "^7.1.15",
     "@types/lodash.merge": "^4.6.6",
     "@types/node": "^16.4.9",
-    "@types/prettier": "^2.3.2",
     "@typescript-eslint/eslint-plugin": "^4.28.5",
     "@typescript-eslint/parser": "^4.28.5",
     "eslint": "^7.32.0",
