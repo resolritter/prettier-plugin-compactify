@@ -2,6 +2,14 @@
 
 Available on npm as `prettier-plugin-compactify`
 
+# Archiving notice
+
+Prettier 3.5 introduced `"objectWrap": "collapse"` which made this plugin obsolete for me. Big thanks to @pauldraper
+ for implementing it!
+
+- https://prettier.io/blog/2025/02/09/3.5.0
+- https://github.com/prettier/prettier/pull/16163
+
 # Introduction
 
 This plugin collapses objects' formatting before passing the code to Prettier.
